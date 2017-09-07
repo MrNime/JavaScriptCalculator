@@ -11,7 +11,9 @@
     --dark: #140078;
     --light: #8559da;
     --primary: #512da8;
-    --offwhite: #f5f5f6;
+    --offwhite: #eeeeee;
+    --text-dark: #494949;
+    --text-light: #757575;
 }
 
 body {
@@ -33,13 +35,33 @@ body {
 /*screen area*/
 .top {
     background-color: var(--offwhite);
-    color: #000;
-    height: 5em;
+    color: var(--text-dark);
+}
+
+.screen {
+    /*height: 15em;*/
+}
+
+.screen > div {
+    text-align: right;
+    padding: 0.375em;
+}
+
+.screen .input {
+    height: 70%;
+    font-size: 1.5em;
+    color: var(--text-dark);
+}
+
+.screen .result {
+    height: 30%;
+    font-size: 1em;
+    color: var(--text-light);
 }
 
 /*button area*/
 .bottom {
-    color: #FFF;
+    color: var(--offwhite);
     display: flex;
     height: 15em;
 }
@@ -54,6 +76,7 @@ body {
 /*operator buttons*/
 .btn-right {
     background-color: var(--dark);
+    color: var(--offwhite);
     flex-basis: 20%;
     display: flex;
 }
@@ -84,17 +107,8 @@ body {
     align-items: center;
 }
 
-/*columns of buttons*/
-.column {
-
-}
-
-.bottom {
-    text-align: center;
-}
-
 .bottom span {
-    /*padding: 0.5em;*/
+    padding: 0.5em;
 }
 
 .bottom span:hover {
