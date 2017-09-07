@@ -1,8 +1,10 @@
+/*TODO simplify, use sass*/
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    border: 1px black solid;
+    /*border: 1px black solid;*/
 }
 
 :root {
@@ -39,6 +41,7 @@ body {
 .bottom {
     color: #FFF;
     display: flex;
+    height: 15em;
 }
 
 /*number buttons*/
@@ -52,25 +55,33 @@ body {
 .btn-right {
     background-color: var(--dark);
     flex-basis: 20%;
+    display: flex;
 }
 
 .btn-main .column {
-    flex-grow: 1;
+    flex: 1;
     display: flex;
     flex-direction: column;
 }
 
 .btn-right .column {
+    flex: 1;
     display: flex;
     flex-direction: column;
 }
 
 .btn-main .column span {
     flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .btn-right .column span {
     flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 /*columns of buttons*/
