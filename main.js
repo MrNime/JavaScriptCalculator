@@ -10,7 +10,7 @@ console.log(Array.isArray(keys));
 const operators = ["+", "-", "x", "÷"];
 
 let operation = "";
-let ans;
+let ans = "&nbsp;";
 let hasDecimal = false;
 
 // which is faster?
@@ -19,22 +19,25 @@ let hasDecimal = false;
 
 keys.map(key => key.addEventListener("click", keyHandler));
 
-
+// TODO: refactor entire keyHandler
 function keyHandler(e) {
     const key = e.target.dataset.key;
     // console.log(e);
     // console.log(e.target);
 
     console.log(input.innerHTML);
+    // prevent multiple dots
     if (key === "." && hasDecimal) {
         return;
     }
 
     if(key === "." && operation.length === 0) {
+        operation += '0' + key;
         input.innerHTML = "0.";
+        return;
     }
 
-    if (key !== "delete") {
+    if (key !== "delete" && key !== '=') {
         operation += key;
         input.innerHTML = operation;
         if (key === ".") {
@@ -44,16 +47,26 @@ function keyHandler(e) {
 
     if (key === 'delete') {
         operation = operation.slice(0, -1);
-        input.innerHTML = operation;
-    } else if (key === "=") {
+        if (operation.length < 1) {
+            // prevent .top from shrinking if empty
+            input.innerHTML = "&nbsp;";
+        } else {
+            input.innerHTML = operation;
+        }
+    }
+
+    if (key === "=") {
+        if (ans !== '&nbsp;') {
+            console.log('tis niet nbsp');
+            operation = ans.toString();
+            ans = "&nbsp;";
+            input.innerHTML = operation;
+            result.innerHTML = ans;
+        }
         if (ans.toString().indexOf(".") === -1) {
             hasDecimal = false;
         }
-        operation = operation.slice(0, -1);
-        operation = ans.toString();
-        ans = "&nbsp;";
-        input.innerHTML = operation;
-        result.innerHTML = ans;
+        // operation = operation.slice(0, -1);
     }
 
     if (operators.indexOf(key) !== -1) {
@@ -62,6 +75,7 @@ function keyHandler(e) {
 
     if (key.match(/\d/)) {
         let jsMath = operation.replace(/x/g, "*").replace(/÷/g, "/");
+        // unary plus operator
         ans = +(eval(jsMath)).toFixed(5);
         console.log(ans);
         result.innerHTML = ans;
