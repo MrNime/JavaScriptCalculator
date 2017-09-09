@@ -5,8 +5,6 @@ const result = document.querySelector(".result");
 const deleteBtn = document.querySelector(".delete");
 // make array of all keys, querySelectorAll standard gives a nodelist
 const keys = [...document.querySelectorAll('.bottom span')];
-console.log(typeof(keys));
-console.log(Array.isArray(keys));
 const operators = ["+", "-", "x", "÷"];
 
 let operation = "";
@@ -22,23 +20,37 @@ keys.map(key => key.addEventListener("click", keyHandler));
 // TODO: refactor entire keyHandler
 function keyHandler(e) {
     const key = e.target.dataset.key;
-    // console.log(e);
-    // console.log(e.target);
+    console.log(e);
+    console.log(e.target);
+    console.log(key);
 
-    console.log(input.innerHTML);
+    console.log('innerhtml input before: ' + input.innerHTML);
+    console.log('operation before: ' + operation);
+
     // prevent multiple dots
     if (key === "." && hasDecimal) {
         return;
     }
 
-    if(key === "." && operation.length === 0) {
+    // if first input is decimal point, set operation to 0.
+    if (key === "." && operation.length === 0) {
         operation += '0' + key;
         input.innerHTML = "0.";
         return;
     }
 
+    // if first input is an operator, ignore input
+    if (operators.indexOf(key) !== -1 && operation.length === 0) {
+        return;
+    }
+
     if (key !== "delete" && key !== '=') {
-        operation += key;
+        let lastChar = operation[operation.length - 1];
+        if (operators.indexOf(key) !== -1 && operators.indexOf(lastChar) !== -1) {
+          operation = operation.slice(0, -1) + key;
+      } else {
+          operation += key;
+      }
         input.innerHTML = operation;
         if (key === ".") {
             hasDecimal = true;
@@ -66,18 +78,23 @@ function keyHandler(e) {
         if (ans.toString().indexOf(".") === -1) {
             hasDecimal = false;
         }
-        // operation = operation.slice(0, -1);
     }
 
     if (operators.indexOf(key) !== -1) {
       hasDecimal = false;
     }
 
-    if (key.match(/\d/)) {
-        let jsMath = operation.replace(/x/g, "*").replace(/÷/g, "/");
-        // unary plus operator
-        ans = +(eval(jsMath)).toFixed(5);
-        console.log(ans);
+    if (key.match(/\d/) || key == 'delete') {
+        let jsMath = operation.replace(/×/g, "*").replace(/÷/g, "/");
+        if (jsMath) {
+            // unary plus operator
+            ans = +(eval(jsMath)).toFixed(5);
+        } else {
+            ans = "&nbsp;";
+        }
+        console.log('current ans: ' + ans);
         result.innerHTML = ans;
     }
+    console.log('innerhtml input after: ' + input.innerHTML);
+    console.log('operation after: ' + operation);
 }
